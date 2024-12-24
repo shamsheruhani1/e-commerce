@@ -1,6 +1,7 @@
 package com.ecommerce.project.exception;
 
 import com.ecommerce.project.payload.APIResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class MyGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -28,6 +30,7 @@ public class MyGlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse> exceptionHandler(Exception e){
+        log.error("An error occurred: {}", e.getMessage(), e);
         APIResponse apiResponse=  APIResponse.builder().message(e.getMessage()).status(false).build();
         return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }
