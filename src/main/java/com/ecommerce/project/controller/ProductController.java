@@ -28,7 +28,7 @@ public class ProductController {
         return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/public/products")
+    @GetMapping("/admin/products")
     public ResponseEntity<ProductResponse> getAllProducts(
             @RequestParam(name = "pageNumber",defaultValue = AppConstant.PAGE_NUMBER,required = false) Integer pageNumber,
             @RequestParam(name = "pageSize",defaultValue = AppConstant.PAGE_SIZE,required = false) Integer pageSize,
@@ -40,7 +40,7 @@ public class ProductController {
                 (pageNumber,pageSize,sortBy,sortOrder),HttpStatus.OK);
     }
 
-    @GetMapping("public/categories/{categoryId}/products")
+    @GetMapping("admin/categories/{categoryId}/products")
     public ResponseEntity<ProductResponse> getProductsByCategoryId(@PathVariable Long categoryId,
                                                                    @RequestParam(name = "pageNumber",defaultValue = AppConstant.PAGE_NUMBER,required = false) Integer pageNumber,
                                                                    @RequestParam(name = "pageSize",defaultValue = AppConstant.PAGE_SIZE,required = false) Integer pageSize,
@@ -53,7 +53,7 @@ public class ProductController {
         return ResponseEntity.ok(productResponse);
     }
 
-    @GetMapping("/public/products/keyword/{keyword}")
+    @GetMapping("/admin/products/keyword/{keyword}")
     public  ResponseEntity<ProductResponse> getProductsByKeyword(@PathVariable String keyword,
                                                                  @RequestParam(name = "pageNumber",defaultValue = AppConstant.PAGE_NUMBER,required = false) Integer pageNumber,
                                                                  @RequestParam(name = "pageSize",defaultValue = AppConstant.PAGE_SIZE,required = false) Integer pageSize,
