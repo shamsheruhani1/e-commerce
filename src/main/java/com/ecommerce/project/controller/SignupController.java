@@ -10,6 +10,8 @@ import com.ecommerce.project.security.payload.SignupRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +33,18 @@ public class SignupController {
     RoleRepository roleRepository;
 
     @Autowired
+    CompromisedPasswordChecker compromisedPasswordChecker;
+
+    @Autowired
     PasswordEncoder encoder;
     @PostMapping("/create")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        CompromisedPasswordDecision check = compromisedPasswordChecker.check(signUpRequest.getPassword());
+
+        if(check.isCompromised()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Password is Compromised Plz use strong password !"));
+        }
+
         if (userRepository.existsByUserName(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }

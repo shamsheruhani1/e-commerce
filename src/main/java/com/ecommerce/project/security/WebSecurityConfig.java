@@ -43,15 +43,15 @@ public class WebSecurityConfig {
     }
 
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setCompromisedPasswordChecker(compromisedPasswordChecker());
-        return authProvider;
-    }
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//
+//        authProvider.setUserDetailsService(userDetailsService);
+//        authProvider.setPasswordEncoder(passwordEncoder());
+//        authProvider.setCompromisedPasswordChecker(compromisedPasswordChecker());
+//        return authProvider;
+//    }
 
 
     @Bean
@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                                 .anyRequest().authenticated()
                 );
 
-        http.authenticationProvider(authenticationProvider());
+        //http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -99,6 +99,7 @@ public class WebSecurityConfig {
                 "/webjars/**"));
     }
 
+    @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker(){
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }

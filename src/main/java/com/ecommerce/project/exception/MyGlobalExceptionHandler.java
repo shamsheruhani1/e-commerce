@@ -4,6 +4,7 @@ import com.ecommerce.project.payload.APIResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.password.CompromisedPasswordException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,4 +50,13 @@ public class MyGlobalExceptionHandler {
         APIResponse apiResponse=  APIResponse.builder().message(message).status(false).build();
         return  new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CompromisedPasswordException.class)
+    public ResponseEntity<String> handleCompromisedPasswordException(CompromisedPasswordException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body("The password you have entered has been compromised. Please choose a different password.");
+    }
+
+
 }

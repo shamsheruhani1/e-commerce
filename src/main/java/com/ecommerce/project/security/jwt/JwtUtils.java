@@ -60,6 +60,11 @@ public class JwtUtils {
                 .build();
     }
 
+    public ResponseCookie getCleanJwtCookie() {
+        return ResponseCookie.from(jwtCookieName, null)
+                .path("/api")
+                .build();
+    }
     public String generateTokenFromUsername(UserDetailsImpl userDetails) {
     String username = userDetails.getUsername();
             return Jwts.builder()
@@ -102,4 +107,6 @@ public class JwtUtils {
 
         return false;
     }
+
+
 }
